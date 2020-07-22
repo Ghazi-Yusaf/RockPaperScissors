@@ -10,6 +10,22 @@
             function randomChoice() {
                 return Math.floor(Math.random() * 3);
             }
+
+            function computerPlay() {
+                let choice = randomChoice();
+
+                switch (choice) {
+                    case 0:
+                        return "rock";
+                        break;
+                    case 1:
+                        return "paper";
+                        break;
+                    case 2:
+                        return "scissors";
+                        break;
+                }
+            }
         </script>
     </body>
 </html>
