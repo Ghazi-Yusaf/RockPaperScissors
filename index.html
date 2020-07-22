@@ -26,6 +26,37 @@
                         break;
                 }
             }
+
+            function playRound(playerSelection, computerSelection) {
+                let lowerCasePlayerSelection = playerSelection.toLowerCase();
+
+                if (lowerCasePlayerSelection === computerSelection) {
+                    return "It's a draw!";
+                }
+                switch (lowerCasePlayerSelection) {
+                    case "rock":
+                        if (computerSelection === "paper") {    
+                            return "You lose! Paper beats rock.";
+                        }
+                        return "You win! Rock beats scissors";
+                        break;
+                    case "paper":
+                        if (computerSelection === "scissors") {
+                            return "You lose! Scissors beats paper.";
+                        }
+                        return "You win! Paper beats rock";
+                        break;
+                    case "scissors":
+                        if (computerSelection === "rock") {
+                            return "You lose! Rock beats scissors.";
+                        }
+                        playerScore++;
+                        return "You win! scissors beats paper";
+                    default:
+                        return "That's not a valid play, you must type either rock, paper or scissors.";
+                        break;
+                }
+            }
         </script>
     </body>
 </html>
