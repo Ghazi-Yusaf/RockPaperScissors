@@ -66,7 +66,12 @@
             function game() {
                 let round = 1;
                 while (round <= 5) {
-                    console.log(playRound(prompt("type either rock, paper or scissors to play: "), computerPlay()));
+                    let output = playRound(prompt("type either rock, paper or scissors to play: "), computerPlay());
+                    while (output === "That's not a valid play, you must type either rock, paper or scissors.") {
+                        console.log(output);
+                        output = playRound(prompt("type either rock, paper or scissors to play: "), computerPlay());
+                    }
+                    console.log(output);
                     round++;
                 }
                 
