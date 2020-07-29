@@ -5,10 +5,37 @@
         <title>Rock, Paper, Scissors</title>
     </head>
     <body>
-        <h1>Press F12 to open the developer tools, select console and type game() to play.</h1>
+        <h2>Let's play Rock, paper, scissors. Press a button to play the computer and see if you win. Or play a game (best of 5)!</h2>
+        <button id="rock">Rock</button>
+        <button id="paper">Paper</button>
+        <button id="scissors">Scissors</button>
+        <div>
+            <p id="round"></p>
+            <p id="game"></p>
+            <p id="result"></p>
+        </div>
         <script>
             let playerScore = 0;
             let computerScore = 0;
+            let round = 1;
+
+            document.getElementById('round').textContent = `Round ${round}/5: `;
+            document.getElementById('game').textContent = `Player score: ${playerScore}, Computer score: ${computerScore}. `;
+
+            const rockButton = document.getElementById('rock');
+            rockButton.addEventListener('click', () => {
+                playRound('rock', computerPlay());
+            });
+
+            const paperButton = document.getElementById('paper');
+            paperButton.addEventListener('click', () => {
+                playRound('paper', computerPlay());
+            });
+
+            const scissorsButton = document.getElementById('scissors');
+            scissorsButton.addEventListener('click', () => {
+                playRound('scissors', computerPlay());
+            });
 
             function randomChoice() {
                 return Math.floor(Math.random() * 3);
@@ -19,74 +46,96 @@
 
                 switch (choice) {
                     case 0:
-                        return "rock";
+                        return 'rock';
                         break;
                     case 1:
-                        return "paper";
+                        return 'paper';
                         break;
                     case 2:
-                        return "scissors";
+                        return 'scissors';
                         break;
                 }
             }
 
             function playRound(playerSelection, computerSelection) {
-                let lowerCasePlayerSelection = playerSelection.toLowerCase();
+                let roundText = `Round ${round}/5: `;
+                document.getElementById('result').textContent = "";
 
-                if (lowerCasePlayerSelection === computerSelection) {
-                    return "It's a draw!";
+                if (playerSelection === computerSelection) {
+                    roundText += 'It\'s a draw!';
+                    document.getElementById('round').textContent = roundText;
+                    let gameText = `Player score: ${playerScore}, Computer score: ${computerScore}. `;
+                    document.getElementById('game').textContent = gameText;
+                    round++;
+                    if (isGameOver()) {
+                        document.getElementById('result').textContent = isGameOver();
+
+                        playerScore = 0;
+                        computerScore = 0;
+                        round = 1;
+                    }
+                    return;
                 }
-                switch (lowerCasePlayerSelection) {
-                    case "rock":
-                        if (computerSelection === "paper") {
+
+                switch (playerSelection) {
+                    case 'rock':
+                        if (computerSelection === 'paper') {
                             computerScore++;
-                            return "You lose! Paper beats rock.";
+                            roundText += 'You lose! Paper beats rock.';
+                            break;
                         }
                         playerScore++;
-                        return "You win! Rock beats scissors";
-                    case "paper":
-                        if (computerSelection === "scissors") {
+                        roundText += 'You win! Rock beats scissors';
+                        break;
+                    case 'paper':
+                        if (computerSelection === 'scissors') {
                             computerScore++
-                            return "You lose! Scissors beats paper.";
+                            roundText += 'You lose! Scissors beats paper.';
+                            break;
                         }
                         playerScore++;
-                        return "You win! Paper beats rock";
-                    case "scissors":
-                        if (computerSelection === "rock") {
+                        roundText += 'You win! Paper beats rock';
+                        break;
+                    case 'scissors':
+                        if (computerSelection === 'rock') {
                             computerScore++;
-                            return "You lose! Rock beats scissors.";
+                            roundText += 'You lose! Rock beats scissors.';
+                            break;
                         }
                         playerScore++;
-                        return "You win! scissors beats paper";
+                        roundText += 'You win! scissors beats paper';
+                        break;
                     default:
-                        return "That's not a valid play, you must type either rock, paper or scissors.";
+                        return 'That\'s not a valid play, you must press either rock, paper or scissors.';
+                }
+                document.getElementById('round').textContent = roundText;
+                round++;
+                let gameText = `Player score: ${playerScore}, Computer score: ${computerScore}. `;
+                document.getElementById('game').textContent = gameText;
+
+                if (isGameOver()) {
+                    document.getElementById('result').textContent = isGameOver();
+
+                    playerScore = 0;
+                    computerScore = 0;
+                    round = 1;
                 }
             }
 
-            function game() {
-                let round = 1;
-                while (round <= 5) {
-                    let output = playRound(prompt("type either rock, paper or scissors to play: "), computerPlay());
-                    while (output === "That's not a valid play, you must type either rock, paper or scissors.") {
-                        console.log(output);
-                        output = playRound(prompt("type either rock, paper or scissors to play: "), computerPlay());
-                    }
-                    console.log(output);
-                    round++;
-                }
-                
-                if (playerScore > computerScore) {
-                    console.log("You win the game!");
-                }
-                else if (computerScore > playerScore) {
-                    console.log("You lose the game! Tough luck.");
-                }
-                else {
-                    console.log("The game ended in a tie!");
+            function isGameOver() {
+                if (round <= 5) {
+                    return;
                 }
 
-                playerScore = 0;
-                computerScore = 0;
+                if (playerScore > computerScore) {
+                    return "You win the game!";
+                }
+                else if (computerScore > playerScore) {
+                    return "You lose the game! Tough luck.";
+                }
+                else {
+                    return "The game ended in a tie!";
+                }
             }
         </script>
     </body>
